@@ -57,16 +57,10 @@ app.get('/', (req, res) =>{
 });
 
 app.post('/web_data', async (req, res) => {
+
     const {queryId, totalPrice} = req.body;
 
-    await bot.answerWebAppQuery(queryId, {
-        type: 'article',
-        id: queryId,
-        title: 'Данные пришли',
-        input_message_content: {
-            message_text: 'Данные пришли'
-        }
-    });
+    console.log('дебаг');
 
     try{
         await bot.answerWebAppQuery(queryId, {
