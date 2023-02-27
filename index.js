@@ -60,7 +60,7 @@ app.get('/', (req, res) =>{
 
 });
 
-app.post('/pos', async (req, res) => {
+app.post('/web-data', async (req, res) => {
 
     const {queryId, totalPrice} = req.body;
 
