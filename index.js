@@ -57,9 +57,16 @@ app.get('/', (req, res) =>{
 });
 
 app.post('/web_data', async (req, res) => {
-    const {queryId, totalPrice} = res.body;
+    const {queryId, totalPrice} = req.body;
 
-    await bot.sendMessage(queryId, 'Данные пришли');
+    await bot.answerWebAppQuery(queryId, {
+        type: 'article',
+        id: queryId,
+        title: 'Данные пришли',
+        input_message_content: {
+            message_text: 'Данные пришли'
+        }
+    });
 
     try{
         await bot.answerWebAppQuery(queryId, {
