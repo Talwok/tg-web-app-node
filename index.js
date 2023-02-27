@@ -60,14 +60,14 @@ app.get('/', (req, res) =>{
 
 });
 
-app.post('/web_data', async function (req, res) {
+app.post('/web_data', function (req, res) {
 
     const {queryId, totalPrice} = req.body;
 
     console.log('дебаг');
 
     try{
-        await bot.answerWebAppQuery(queryId, {
+        bot.answerWebAppQuery(queryId, {
             type: 'article',
             id: queryId,
             title: 'Успешная покупка',
