@@ -53,7 +53,11 @@ bot.on('message', async (msg) => {
 });
 
 app.get('/', (req, res) =>{
+    
+    console.log('Прошёл гет пустой');
+
     res.send('server works, PORT is ' + PORT);
+
 });
 
 app.post('/web_data', async (req, res) => {
