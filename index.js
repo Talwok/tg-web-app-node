@@ -14,25 +14,18 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-
 bot.on('message', async (msg) => {
+  
   const chatId = msg.chat.id;
   const text = msg.text;
 
   if (text === "/start")
   {
-    await bot.sendMessage(chatId, 'Заполни форму ниже', {
-        reply_markup:{
-            keyboard:[
-                [{text: 'Заполни форму', web_app: {url: webAppUrl + '/form'}}]
-            ]
-        }
-    });
-
-    await bot.sendMessage(chatId, 'Сделай заказ быстро', {
+    await bot.sendMessage(chatId, 'Рады приветствовать Вас в магазине SportCity! В этом боте Вы можете заказать себе наши спорт товары!', {
         reply_markup: {
             inline_keyboard: [
-                [{text: 'Сделать заказ', web_app: {url: webAppUrl}}]
+                [{text: 'Каталог товаров', web_app: {url: webAppUrl}}, {text: 'Корзина', web_app: {url: webAppUrl}}],
+                [{text: 'Текущие заказы', web_app: {url: webAppUrl + '/form'}}]
             ]
         }
     }); 
@@ -40,6 +33,7 @@ bot.on('message', async (msg) => {
  
   if(msg?.web_app_data?.data){
         try {
+
             const data = JSON.parse(msg?.web_app_data?.data);
 
             await bot.sendMessage(chatId, 'Спасибо, за обратную связь!');
@@ -62,7 +56,7 @@ app.get('/', (req, res) =>{
 
 app.post('/web-data', async (req, res) => {
 
-    const {queryId, totalPrice} = req.body;
+    const {queryId, products, totalPrice} = req.body;
 
     try {
         await bot.answerWebAppQuery(queryId, {
@@ -70,7 +64,7 @@ app.post('/web-data', async (req, res) => {
             id: queryId,
             title: 'Успешная покупка',
             input_message_content: {
-                message_text: `Спасибо за покупку, вы приобрели товар на сумму ${totalPrice}`
+                message_text: `Спасибо за покупку, вы приобрели товар на сумму ${totalPrice}: ${products.map(item => item.title).join(', ')}`
             }
         });
         return res.status(200).json({});
